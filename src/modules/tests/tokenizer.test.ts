@@ -1,4 +1,5 @@
 import { assertEquals } from '../../deps.ts';
+
 import { tokenizer } from '../tokenizer.ts';
 
 Deno.test('tokenizer', () => {
