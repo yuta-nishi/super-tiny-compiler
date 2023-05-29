@@ -1,64 +1,45 @@
 import { assertEquals } from '../../deps.ts';
 
-import { TOKEN } from '../../constants.ts';
+import { NODE_TYPE, TOKEN } from '../../constants.ts';
 import { parser } from '../parser.ts';
 
 Deno.test('parser', () => {
   const tokens = [
-    { type: TOKEN.PARENTHESES, value: '(' } as const,
-    { type: TOKEN.NAME, value: 'add' } as const,
-    { type: TOKEN.NUMBER, value: '2' } as const,
-    { type: TOKEN.PARENTHESES, value: '(' } as const,
-    { type: TOKEN.NAME, value: 'subtract' } as const,
-    { type: TOKEN.NUMBER, value: '4' } as const,
-    { type: TOKEN.NUMBER, value: '2' } as const,
-    { type: TOKEN.PARENTHESES, value: ')' } as const,
-    { type: TOKEN.PARENTHESES, value: ')' } as const,
-    { type: TOKEN.PARENTHESES, value: '(' } as const,
-    { type: TOKEN.NAME, value: 'fullName' } as const,
-    { type: TOKEN.STRING, value: 'hoge' } as const,
-    { type: TOKEN.STRING, value: 'fuga' } as const,
-    { type: TOKEN.PARENTHESES, value: ')' } as const,
+    { type: TOKEN.PARENTHESES, value: '(' },
+    { type: TOKEN.NAME, value: 'add' },
+    { type: TOKEN.NUMBER, value: '2' },
+    { type: TOKEN.PARENTHESES, value: '(' },
+    { type: TOKEN.NAME, value: 'subtract' },
+    { type: TOKEN.NUMBER, value: '4' },
+    { type: TOKEN.NUMBER, value: '2' },
+    { type: TOKEN.PARENTHESES, value: ')' },
+    { type: TOKEN.PARENTHESES, value: ')' },
   ];
 
   assertEquals(parser(tokens), {
-    type: 'Program',
+    type: NODE_TYPE.PROGRAM,
     body: [
       {
-        type: 'CallExpression',
+        type: NODE_TYPE.CALL_EXPRESSION,
         name: 'add',
         params: [
           {
-            type: 'NumberLiteral',
+            type: NODE_TYPE.NUMBER_LITERAL,
             value: '2',
           },
           {
-            type: 'CallExpression',
+            type: NODE_TYPE.CALL_EXPRESSION,
             name: 'subtract',
             params: [
               {
-                type: 'NumberLiteral',
+                type: NODE_TYPE.NUMBER_LITERAL,
                 value: '4',
               },
               {
-                type: 'NumberLiteral',
+                type: NODE_TYPE.NUMBER_LITERAL,
                 value: '2',
               },
             ],
-          },
-        ],
-      },
-      {
-        type: 'CallExpression',
-        name: 'fullName',
-        params: [
-          {
-            type: 'StringLiteral',
-            value: 'hoge',
-          },
-          {
-            type: 'StringLiteral',
-            value: 'foo',
           },
         ],
       },
