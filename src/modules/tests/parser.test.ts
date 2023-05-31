@@ -16,7 +16,7 @@ Deno.test('parser', () => {
     { type: TOKEN.PARENTHESES, value: ')' },
   ];
 
-  assertEquals(parser(tokens), {
+  const ast = {
     type: NODE_TYPE.PROGRAM,
     body: [
       {
@@ -44,5 +44,7 @@ Deno.test('parser', () => {
         ],
       },
     ],
-  });
+  };
+
+  assertEquals(parser(tokens), ast);
 });

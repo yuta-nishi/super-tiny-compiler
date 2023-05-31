@@ -1,39 +1,9 @@
 import { assertEquals } from '../../deps.ts';
 
 import { NODE_TYPE } from '../../constants.ts';
-import { transformer } from '../transformer.ts';
+import { codeGenerator } from '../code-generator.ts';
 
-Deno.test('transformer', () => {
-  const ast = {
-    type: NODE_TYPE.PROGRAM,
-    body: [
-      {
-        type: NODE_TYPE.CALL_EXPRESSION,
-        name: 'add',
-        params: [
-          {
-            type: NODE_TYPE.NUMBER_LITERAL,
-            value: '2',
-          },
-          {
-            type: NODE_TYPE.CALL_EXPRESSION,
-            name: 'subtract',
-            params: [
-              {
-                type: NODE_TYPE.NUMBER_LITERAL,
-                value: '4',
-              },
-              {
-                type: NODE_TYPE.NUMBER_LITERAL,
-                value: '2',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
-
+Deno.test('codeGenerator', () => {
   const newAst = {
     type: NODE_TYPE.PROGRAM,
     body: [
@@ -73,5 +43,7 @@ Deno.test('transformer', () => {
     ],
   };
 
-  assertEquals(transformer(ast), newAst);
+  const output = 'add(2, subtract(4, 2));';
+
+  assertEquals(codeGenerator(newAst), output);
 });
