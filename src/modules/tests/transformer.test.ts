@@ -34,7 +34,7 @@ Deno.test('transformer', () => {
     ],
   };
 
-  assertEquals(transformer(ast), {
+  const newAst = {
     type: NODE_TYPE.PROGRAM,
     body: [
       {
@@ -71,5 +71,7 @@ Deno.test('transformer', () => {
         },
       },
     ],
-  });
+  };
+
+  assertEquals(transformer(ast), newAst);
 });
